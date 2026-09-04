@@ -1,13 +1,19 @@
 import express from 'express'
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import userRoutes from './routes/user.routes.js';
 dotenv.config()
 
 const app = express();
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
+app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 
 
 
@@ -16,6 +22,8 @@ mongoose.connect(process.env.MONGODB_URI).then(()=>{
 }).catch((err)=>{
     console.log(err)
 })
+
+app.use('/user', userRoutes)
 
 app.listen(port, ()=>{
     console.log(`Server is running on the port ${port}`)
