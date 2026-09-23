@@ -1,0 +1,56 @@
+.murmuration {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.murmur-dot {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-accent-2);
+  opacity: 0;
+  animation: murmur-drift calc(14s + var(--i) * 0.6s) ease-in-out infinite;
+  animation-delay: calc(var(--i) * -1.3s);
+}
+
+.murmur-dot:nth-child(3n) {
+  width: 4px;
+  height: 4px;
+  background: var(--color-accent);
+}
+
+.murmur-dot:nth-child(4n) {
+  width: 6px;
+  height: 6px;
+  background: #fff7ec;
+}
+
+@keyframes murmur-drift {
+  0%,
+  100% {
+    transform: translate(0, 10px) scale(0.55);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    transform: translate(3px, 3px) scale(0.9);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate(-10px, -12px) scale(1);
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .murmur-dot {
+    animation: none;
+    opacity: 0.5;
+    transform: none;
+  }
+}
