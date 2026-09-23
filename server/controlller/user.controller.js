@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import User from '../models/user.model.js'
 
+
 // registering
 export const registerUser = async (req, res) => {
     try {
@@ -46,7 +47,7 @@ export const registerUser = async (req, res) => {
             email,
             password: hashedPass
         })
-
+        newUser.password = undefined
         res.status(201).json({
             message: "User registered successfully",
             user: newUser
@@ -55,7 +56,7 @@ export const registerUser = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             message: "Internal server error",
-            error: err
+            error: err.message
         })
     }
 }
@@ -66,7 +67,7 @@ export const login = async (req, res) => {
         const { username, password } = req.body;
 
         if (!username || !password) {
-            res.status(400).json({
+            return res.status(400).json({
                 message: "All fields are required"
             })
         }
@@ -93,11 +94,11 @@ export const login = async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.Node_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
-
+        user.password = undefined
         res.status(200).json({
             message: "Login Successfull",
             user
@@ -105,7 +106,7 @@ export const login = async (req, res) => {
     }catch(err){
         return res.status(500).json({
             message: "Internal server error",
-            error: err
+            error: err.message
         })
     }
 }
