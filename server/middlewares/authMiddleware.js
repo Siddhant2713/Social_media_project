@@ -1,8 +1,31 @@
-import  jwt  from "jsonwebtoken"
+import jwt from "jsonwebtoken"
+import userModel from "../models/user.model.js"
 
 
 
-export const isAuthenticated = (req, res)=>{
-    const token = req.cookies.token
-    console.log(token)
+export const isAuthenticated = async (req, res, next) => {
+    try {
+        const token = req.cookies?.token
+
+        if (!token) {
+            return res.status(401).json({ message: 'Not Authorized' })
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        const user = await userModel.findById(decoded.id)
+        // console.log(user)
+
+        if (!user) {
+            return res.status(404).json({ message: 'User Not Found Token Invalid' })
+        }
+
+        req.user = user
+        next()
+    } catch (error) {
+        console.error('Authentication error:', error.message)
+
+        return res.status(401).json({
+            message: 'Invalid or expired authentication token'
+        })
+    }
 }

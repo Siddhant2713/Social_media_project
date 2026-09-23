@@ -109,3 +109,7 @@ export const login = async (req, res) => {
         })
     }
 }
+
+export const getuser = async (req, res)=>{
+    res.status(200).json( {message: "User Authenticated", userData: req.user})
+}
