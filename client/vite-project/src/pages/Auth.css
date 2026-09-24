@@ -1,0 +1,93 @@
+@reference "tailwindcss";
+
+@keyframes bgshift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+@keyframes fadeUp { from{transform:translateY(24px); opacity:0} to{transform:translateY(0); opacity:1} }
+@keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+@keyframes floaty { 0%,100%{transform:translateY(0) rotate(var(--r,0deg))} 50%{transform:translateY(-16px) rotate(calc(var(--r,0deg) + 2deg))} }
+@keyframes floaty2 { 0%,100%{transform:translateY(0) rotate(var(--r,0deg))} 50%{transform:translateY(18px) rotate(calc(var(--r,0deg) - 3deg))} }
+
+.auth-grid { @apply grid min-h-screen; grid-template-columns: 1fr 1fr; }
+
+.auth-form-side { @apply px-10 md:px-16 py-12 flex flex-col relative; }
+.auth-art-side { @apply relative overflow-hidden p-10 flex flex-col justify-between; color: var(--clr-cream); }
+.auth-art-bg { @apply absolute inset-0; background-size: 200% 200%; animation: bgshift 18s ease-in-out infinite; }
+/* the signup art panel sits on orange, where ink reads better than cream */
+.auth-art-side.on-accent { color: var(--clr-ink); }
+
+/* the column that holds the form, centred in its half of the screen */
+.auth-form-body { @apply w-full my-auto; max-width: 440px; padding: 32px 0; }
+.auth-form-side.centered .auth-form-body { @apply mx-auto; max-width: 400px; }
+
+/* The logo / wordmark lives in index.css — it is shared with the landing nav. */
+
+/* ---------- headings ---------- */
+.auth-eyebrow { font-family: 'JetBrains Mono', monospace; @apply text-xs uppercase tracking-widest opacity-60 mb-4 flex items-center gap-2; animation: fadeUp 0.6s ease-out both; }
+.auth-eyebrow-dot { @apply w-2 h-2 rounded-full shrink-0; background: var(--clr-accent); animation: blink 1.2s infinite; }
+
+.auth-h1 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(36px, 4.2vw, 56px); line-height: 0.95; margin: 0 0 10px; letter-spacing: -0.02em; animation: fadeUp 0.6s 0.05s ease-out both; }
+.auth-h1 em { font-style: italic; }
+.auth-sub { @apply opacity-60 mb-7; font-size: 15px; line-height: 1.5; animation: fadeUp 0.6s 0.1s ease-out both; }
+
+/* ---------- form ---------- */
+.auth-form { @apply flex flex-col gap-5; animation: fadeUp 0.6s 0.2s ease-out both; }
+.auth-label { @apply flex flex-col gap-2; }
+.auth-label-text { font-family: 'JetBrains Mono', monospace; @apply text-[11px] uppercase tracking-widest opacity-60; }
+.auth-input { @apply bg-transparent border-0 border-b-[1.5px] py-3 text-lg transition-colors; border-color: var(--clr-ink); font-family: inherit; color: var(--clr-ink); }
+.auth-input:focus { outline: none; border-color: var(--clr-accent); }
+
+.auth-check { @apply flex gap-3 cursor-pointer; font-size: 13px; line-height: 1.5; opacity: 0.75; }
+.auth-check input { accent-color: var(--clr-accent); margin-top: 3px; flex-shrink: 0; }
+.auth-check a { border-bottom: 1px solid var(--clr-ink); }
+
+.auth-error { @apply text-xs; color: #b00020; }
+
+.auth-submit { @apply mt-2 text-center rounded-full transition-all; padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; background: var(--clr-ink); color: var(--clr-cream); border: none; cursor: pointer; }
+.auth-submit:hover { background: var(--clr-accent); color: var(--clr-ink); transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--clr-ink); }
+.auth-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; background: var(--clr-ink); color: var(--clr-cream); }
+
+/* ---------- social providers ---------- */
+.auth-divider { @apply flex items-center gap-4 my-8; font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.15em; }
+.auth-divider-line { @apply flex-1 h-px; background: rgba(10,10,10,0.2); }
+
+.auth-providers { @apply grid grid-cols-2 gap-3; }
+.auth-providers.cols-4 { @apply grid-cols-4 gap-[10px]; }
+.auth-provider-btn { @apply flex items-center justify-center gap-2 py-3 rounded-xl border-[1.5px] text-xs uppercase tracking-wide transition-all cursor-pointer; border-color: var(--clr-ink); background: transparent; font-family: 'JetBrains Mono', monospace; color: var(--clr-ink); }
+.auth-provider-btn:hover { background: var(--clr-ink); color: var(--clr-cream); transform: translateY(-2px); }
+.auth-providers.cols-4 .auth-provider-btn { @apply flex-col gap-1.5 px-2 py-3.5 text-[11px]; }
+.auth-provider-dot { @apply w-3.5 h-3.5 rounded shrink-0; }
+
+.auth-footer-link { @apply mt-8 text-center text-sm; }
+.auth-footer-link a { @apply border-b-[1.5px] pb-[2px]; border-color: var(--clr-ink); }
+
+/* ---------- art panel ---------- */
+.auth-art-block { @apply relative z-10; max-width: 520px; }
+.auth-art-meta { @apply relative z-10 flex justify-between gap-4; font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.1em; }
+.auth-art-h { font-family: 'Instrument Serif', serif; font-weight: 400; line-height: 0.95; letter-spacing: -0.02em; margin: 0; }
+.auth-art-h em { font-style: italic; }
+
+.auth-stats { @apply flex gap-6; margin-top: 32px; }
+.auth-stat-n { font-family: 'Instrument Serif', serif; font-size: clamp(36px, 4vw, 48px); line-height: 1; }
+.auth-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7; margin-top: 6px; }
+
+/* ---------- floaters ---------- */
+.auth-floater { --r: 0deg; position: absolute; animation: floaty 8s ease-in-out infinite; }
+.auth-floater.drift { animation: floaty2 10s ease-in-out infinite; }
+.auth-floater.slow { animation: floaty 12s ease-in-out infinite; }
+.auth-floater.note { border-radius: 24px; padding: 24px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.5; }
+.auth-floater.bubble { border-radius: 50%; display: grid; place-items: center; text-align: center; line-height: 1; font-family: 'Instrument Serif', serif; font-style: italic; }
+.auth-floater.square { border-radius: 12px; }
+.auth-floater-title { opacity: 0.5; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+    .auth-grid { grid-template-columns: 1fr !important; }
+    .auth-art-side { order: 2; padding: 40px 24px; gap: 40px; min-height: 60vh; }
+    .auth-form-side { @apply px-6 py-10; }
+    .auth-form-body { padding: 32px 0; max-width: none; }
+    .auth-floater { display: none; }
+    .auth-stats { flex-wrap: wrap; gap: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .auth-art-bg, .auth-floater, .auth-eyebrow-dot { animation: none !important; }
+}

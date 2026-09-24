@@ -1,5 +1,5 @@
 import express from 'express'
-import { getuser, login, registerUser } from '../controlller/user.controller.js'
+import { getuser, login, registerUser, logoutUser } from '../controlller/user.controller.js'
 import { isAuthenticated } from '../middlewares/authMiddleware.js'
 
 
@@ -13,5 +13,8 @@ userRoutes.post('/register', registerUser)
 userRoutes.get('/me', isAuthenticated, getuser)
 
 userRoutes.post('/login', login)
+
+userRoutes.post('/logout', logoutUser)
+
 
 export default userRoutes
